@@ -25,14 +25,38 @@ serve(async (req: Request) => {
   }
 
   try {
-    // Initialize Supabase client
+    // Get the JWT token from the Authorization header
+    const authHeader = req.headers.get('Authorization')
+    if (!authHeader) {
+      return new Response(
+        JSON.stringify({ error: 'No authorization header' }),
+        {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      )
+    }
+
+    // Initialize Supabase client with the user's JWT token for RLS
     const supabaseClient = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
       Deno.env.get('SUPABASE_ANON_KEY') ?? '',
       {
         global: {
-          headers: { Authorization: req.headers.get('Authorization')! },
+          headers: { Authorization: authHeader },
         },
+      }
+    )
+
+    // Initialize admin client for storage operations (bypasses RLS)
+    const supabaseAdmin = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+      {
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false
+        }
       }
     )
 
@@ -141,8 +165,15 @@ Text: ${textInput}`
     const deckId = crypto.randomUUID()
     const fileName = `${user.id}/${deckId}.csv`
 
-    // Upload to Supabase Storage
-    const { error: uploadError } = await supabaseClient.storage
+    console.log('Debug Info:', {
+      userId: user.id,
+      fileName: fileName,
+      bucketName: 'ankidecks',
+      fileSize: csvContent.length
+    })
+
+    // Upload to Supabase Storage (use admin client to bypass RLS)
+    const { error: uploadError } = await supabaseAdmin.storage
       .from('ankidecks')
       .upload(fileName, csvContent, {
         contentType: 'text/csv',
@@ -161,6 +192,12 @@ Text: ${textInput}`
     }
 
     // Save deck metadata to database
+    console.log('Attempting database insert with:', {
+      user_id: user.id,
+      deck_name: deckName,
+      file_path: fileName,
+    })
+
     const { data: deckData, error: dbError } = await supabaseClient
       .from('decks')
       .insert({
@@ -174,7 +211,7 @@ Text: ${textInput}`
     if (dbError) {
       console.error('Database Insert Error:', dbError)
       // Try to cleanup the uploaded file
-      await supabaseClient.storage.from('ankidecks').remove([fileName])
+      await supabaseAdmin.storage.from('ankidecks').remove([fileName])
       
       return new Response(
         JSON.stringify({ error: 'Failed to save deck metadata' }),

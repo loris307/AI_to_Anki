@@ -65,7 +65,7 @@ export default function MyDecksPage() {
     try {
       // Get signed URL for the file
       const { data, error } = await supabase.storage
-        .from('anki_decks')
+        .from('ankidecks')
         .createSignedUrl(deck.file_path, 60); // URL valid for 60 seconds
 
       if (error) {
