@@ -57,28 +57,28 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
+    <main className="min-h-screen bg-background flex items-center justify-center p-4">
+      <Card className="w-full max-w-md border-border">
         <CardHeader>
-          <CardTitle>Registrieren</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-foreground">Registrieren</CardTitle>
+          <CardDescription className="text-muted-foreground">
             Erstelle einen neuen Account
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleRegister}>
           <CardContent className="space-y-4">
             {error && (
-              <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
+              <div className="p-3 text-sm text-red-400 bg-red-950/50 border border-red-800 rounded-md">
                 {error}
               </div>
             )}
             {success && (
-              <div className="p-3 text-sm text-green-600 bg-green-50 border border-green-200 rounded-md">
+              <div className="p-3 text-sm text-green-400 bg-green-950/50 border border-green-800 rounded-md">
                 Registrierung erfolgreich! Überprüfe deine E-Mail für die Bestätigung.
               </div>
             )}
             <div className="space-y-2">
-              <Label htmlFor="email">E-Mail</Label>
+              <Label htmlFor="email" className="text-foreground">E-Mail</Label>
               <Input
                 id="email"
                 type="email"
@@ -86,10 +86,11 @@ export default function RegisterPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="bg-input border-border text-foreground"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Passwort</Label>
+              <Label htmlFor="password" className="text-foreground">Passwort</Label>
               <Input
                 id="password"
                 type="password"
@@ -97,10 +98,11 @@ export default function RegisterPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                className="bg-input border-border text-foreground"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Passwort bestätigen</Label>
+              <Label htmlFor="confirmPassword" className="text-foreground">Passwort bestätigen</Label>
               <Input
                 id="confirmPassword"
                 type="password"
@@ -108,6 +110,7 @@ export default function RegisterPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
+                className="bg-input border-border text-foreground"
               />
             </div>
           </CardContent>
@@ -116,7 +119,7 @@ export default function RegisterPage() {
               {loading ? "Registrieren..." : "Registrieren"}
             </Button>
             <div className="text-center">
-              <Link href="/login" className="text-sm text-blue-600 hover:underline">
+              <Link href="/login" className="text-sm text-primary hover:underline">
                 Bereits ein Account? Anmelden
               </Link>
             </div>

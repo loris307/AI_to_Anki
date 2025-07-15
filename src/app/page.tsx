@@ -11,10 +11,10 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Lade...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Lade...</p>
         </div>
       </div>
     );
@@ -22,42 +22,25 @@ export default function Home() {
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-        <div className="max-w-4xl w-full space-y-8">
+      <main className="min-h-screen bg-background flex items-center justify-center p-4">
+        <div className="max-w-md w-full space-y-8">
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl font-bold text-foreground mb-2">
               AI to Anki
             </h1>
-            <p className="text-lg text-gray-600 mb-8">
+            <p className="text-muted-foreground mb-8">
               Erstelle automatisch Anki-Decks aus beliebigen Texten
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Anmelden</CardTitle>
-                <CardDescription>
-                  Melde dich an, um deine Decks zu erstellen und zu verwalten
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
+          <div className="space-y-4">
+            <Card className="border-border">
+              <CardContent className="p-6">
                 <Link href="/login">
-                  <Button className="w-full">
+                  <Button className="w-full mb-4">
                     Anmelden
                   </Button>
                 </Link>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Registrieren</CardTitle>
-                <CardDescription>
-                  Erstelle einen neuen Account
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
                 <Link href="/register">
                   <Button variant="outline" className="w-full">
                     Registrieren
@@ -72,44 +55,27 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-background">
       <Navigation />
       <main className="flex items-center justify-center p-4">
-        <div className="max-w-4xl w-full space-y-8 mt-8">
+        <div className="max-w-md w-full space-y-6 mt-8">
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-2xl font-bold text-foreground mb-2">
               Willkommen zurück!
             </h1>
-            <p className="text-lg text-gray-600 mb-8">
+            <p className="text-muted-foreground mb-8">
               Erstelle automatisch Anki-Decks aus beliebigen Texten
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Neues Deck erstellen</CardTitle>
-                <CardDescription>
-                  Füge einen Text ein und erstelle automatisch ein Anki-Deck
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
+          <div className="space-y-4">
+            <Card className="border-border">
+              <CardContent className="p-6">
                 <Link href="/create-deck">
-                  <Button className="w-full">
+                  <Button className="w-full mb-4">
                     Deck erstellen
                   </Button>
                 </Link>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>Meine Decks</CardTitle>
-                <CardDescription>
-                  Verwalte und downloade deine erstellten Decks
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
                 <Link href="/my-decks">
                   <Button variant="outline" className="w-full">
                     Meine Decks anzeigen

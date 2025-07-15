@@ -68,34 +68,34 @@ export default function CreateDeckPage() {
 
   return (
     <ProtectedRoute>
-      <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+      <main className="min-h-screen bg-background flex items-center justify-center p-4">
         <div className="w-full max-w-2xl">
           <div className="mb-6 text-center">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            <h1 className="text-2xl font-bold text-foreground mb-2">
               Neues Anki-Deck erstellen
             </h1>
-            <Link href="/" className="text-blue-600 hover:underline">
+            <Link href="/" className="text-primary hover:underline">
               ← Zurück zur Startseite
             </Link>
           </div>
           
-          <Card>
+          <Card className="border-border">
             <CardHeader>
-              <CardTitle>Deck-Informationen</CardTitle>
-              <CardDescription>
+              <CardTitle className="text-foreground">Deck-Informationen</CardTitle>
+              <CardDescription className="text-muted-foreground">
                 Füge deinen Text ein und gib dem Deck einen Namen
               </CardDescription>
             </CardHeader>
             <form onSubmit={handleCreateDeck}>
               <CardContent className="space-y-6">
                 {error && (
-                  <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
+                  <div className="p-3 text-sm text-red-400 bg-red-950/50 border border-red-800 rounded-md">
                     {error}
                   </div>
                 )}
                 
                 <div className="space-y-2">
-                  <Label htmlFor="deckName">Name des Decks</Label>
+                  <Label htmlFor="deckName" className="text-foreground">Name des Decks</Label>
                   <Input
                     id="deckName"
                     placeholder="z.B. Geschichte Kapitel 1"
@@ -103,11 +103,12 @@ export default function CreateDeckPage() {
                     onChange={(e) => setDeckName(e.target.value)}
                     required
                     disabled={loading}
+                    className="bg-input border-border text-foreground"
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="textInput">Text hier einfügen (z.B. ein YouTube-Skript)</Label>
+                  <Label htmlFor="textInput" className="text-foreground">Text hier einfügen (z.B. ein YouTube-Skript)</Label>
                   <Textarea
                     id="textInput"
                     placeholder="Füge hier deinen Text ein, aus dem das Anki-Deck erstellt werden soll..."
@@ -116,8 +117,9 @@ export default function CreateDeckPage() {
                     rows={12}
                     required
                     disabled={loading}
+                    className="bg-input border-border text-foreground placeholder:text-muted-foreground"
                   />
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-muted-foreground">
                     Die KI wird aus diesem Text automatisch Frage-Antwort-Paare für Anki-Karteikarten erstellen.
                   </p>
                 </div>

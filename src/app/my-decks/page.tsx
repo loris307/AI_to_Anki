@@ -109,10 +109,10 @@ export default function MyDecksPage() {
   if (loading) {
     return (
       <ProtectedRoute>
-        <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+        <main className="min-h-screen bg-background flex items-center justify-center p-4">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-            <p className="text-gray-600">Lade deine Decks...</p>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Lade deine Decks...</p>
           </div>
         </main>
       </ProtectedRoute>
@@ -121,89 +121,88 @@ export default function MyDecksPage() {
 
   return (
     <ProtectedRoute>
-      <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="mb-6 text-center">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">
-              Meine Decks
-            </h1>
-            <div className="space-x-4">
-              <Link href="/" className="text-blue-600 hover:underline">
-                ← Zurück zur Startseite
-              </Link>
-              <Link href="/create-deck" className="text-blue-600 hover:underline">
-                Neues Deck erstellen
-              </Link>
+      <div className="min-h-screen bg-background">
+        <div className="border-b border-border bg-card">
+          <div className="max-w-6xl mx-auto px-4 py-4">
+            <div className="flex justify-between items-center">
+              <h1 className="text-lg font-semibold text-foreground">
+                Stapelübersicht
+              </h1>
+              <div className="flex space-x-2">
+                <Link href="/create-deck">
+                  <Button variant="outline" size="sm">
+                    Stapel erstellen
+                  </Button>
+                </Link>
+
+              </div>
             </div>
           </div>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Deine erstellten Decks</CardTitle>
-              <CardDescription>
-                Hier findest du alle deine generierten Anki-Decks
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {successMessage && (
-                <div className="mb-4 p-3 text-sm text-green-600 bg-green-50 border border-green-200 rounded-md">
-                  {successMessage}
-                </div>
-              )}
-              
-              {decks.length === 0 ? (
-                <div className="text-center py-8">
-                  <p className="text-gray-600 mb-4">Du hast noch keine Decks erstellt.</p>
-                  <Link href="/create-deck">
-                    <Button>
-                      Erstes Deck erstellen
-                    </Button>
-                  </Link>
-                </div>
-              ) : (
-                <div className="rounded-md border">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Deck-Name</TableHead>
-                        <TableHead>Erstellt am</TableHead>
-                        <TableHead className="text-right">Aktionen</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {decks.map((deck) => (
-                        <TableRow key={deck.id}>
-                          <TableCell className="font-medium">
-                            {deck.deck_name}
-                          </TableCell>
-                          <TableCell>
-                            {formatDate(deck.created_at)}
-                          </TableCell>
-                          <TableCell className="text-right">
-                            <DropdownMenu>
-                              <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="h-8 w-8 p-0">
-                                  <MoreVertical className="h-4 w-4" />
-                                </Button>
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent align="end">
-                                <DropdownMenuItem onClick={() => handleDownload(deck)}>
-                                  <Download className="mr-2 h-4 w-4" />
-                                  Download
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              )}
-            </CardContent>
-          </Card>
         </div>
-      </main>
+
+        <main className="max-w-6xl mx-auto p-4">
+          {successMessage && (
+            <div className="mb-4 p-3 text-sm text-green-400 bg-green-950/50 border border-green-800 rounded-md">
+              {successMessage}
+            </div>
+          )}
+          
+          {decks.length === 0 ? (
+            <div className="text-center py-16">
+              <p className="text-muted-foreground mb-6">Du hast noch keine Decks erstellt.</p>
+              <Link href="/create-deck">
+                <Button>
+                  Erstes Deck erstellen
+                </Button>
+              </Link>
+            </div>
+          ) : (
+            <div className="bg-card border border-border rounded-lg overflow-hidden">
+              <Table>
+                <TableHeader>
+                  <TableRow className="border-b border-border">
+                    <TableHead className="text-foreground font-medium">Stapel</TableHead>
+                    <TableHead className="text-foreground font-medium text-center">Download</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {decks.map((deck) => (
+                    <TableRow key={deck.id} className="border-b border-border hover:bg-accent/50">
+                      <TableCell className="font-medium text-foreground">
+                        <div className="flex items-center space-x-2">
+                          <span className="text-xs text-muted-foreground">+</span>
+                          <span>{deck.deck_name}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-center">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-6 w-6 p-0">
+                              <MoreVertical className="h-3 w-3" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => handleDownload(deck)}>
+                              <Download className="mr-2 h-3 w-3" />
+                              Download
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          )}
+
+          <div className="mt-6 text-center">
+            <p className="text-muted-foreground text-sm">
+              Hier findest du deine Decks! 
+            </p>
+          </div>
+        </main>
+      </div>
     </ProtectedRoute>
   );
 }

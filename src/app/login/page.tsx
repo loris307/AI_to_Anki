@@ -43,23 +43,23 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
+    <main className="min-h-screen bg-background flex items-center justify-center p-4">
+      <Card className="w-full max-w-md border-border">
         <CardHeader>
-          <CardTitle>Anmelden</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-foreground">Anmelden</CardTitle>
+          <CardDescription className="text-muted-foreground">
             Melde dich mit deinem Account an
           </CardDescription>
         </CardHeader>
         <form onSubmit={handleLogin}>
           <CardContent className="space-y-4">
             {error && (
-              <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
+              <div className="p-3 text-sm text-red-400 bg-red-950/50 border border-red-800 rounded-md">
                 {error}
               </div>
             )}
             <div className="space-y-2">
-              <Label htmlFor="email">E-Mail</Label>
+              <Label htmlFor="email" className="text-foreground">E-Mail</Label>
               <Input
                 id="email"
                 type="email"
@@ -67,10 +67,11 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                className="bg-input border-border text-foreground"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Passwort</Label>
+              <Label htmlFor="password" className="text-foreground">Passwort</Label>
               <Input
                 id="password"
                 type="password"
@@ -78,6 +79,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                className="bg-input border-border text-foreground"
               />
             </div>
           </CardContent>
@@ -86,7 +88,7 @@ export default function LoginPage() {
               {loading ? "Anmelden..." : "Anmelden"}
             </Button>
             <div className="text-center">
-              <Link href="/register" className="text-sm text-blue-600 hover:underline">
+              <Link href="/register" className="text-sm text-primary hover:underline">
                 Noch kein Account? Registrieren
               </Link>
             </div>

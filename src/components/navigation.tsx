@@ -20,34 +20,34 @@ export function Navigation() {
   }
 
   return (
-    <nav className="bg-white border-b border-gray-200">
+    <nav className="bg-card border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
+        <div className="flex justify-between h-14">
           <div className="flex items-center">
-            <Link href="/" className="text-xl font-bold text-gray-900">
+            <Link href="/" className="text-lg font-semibold text-foreground">
               AI to Anki
             </Link>
           </div>
           
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3">
             <Link href="/create-deck">
-              <Button variant="outline">
+              <Button variant="ghost" size="sm">
                 Deck erstellen
               </Button>
             </Link>
             
             <Link href="/my-decks">
-              <Button variant="outline">
+              <Button variant="ghost" size="sm">
                 Meine Decks
               </Button>
             </Link>
             
-            <div className="flex items-center space-x-2">
-              <User className="h-4 w-4 text-gray-600" />
-              <span className="text-sm text-gray-600">{user.email}</span>
+            <div className="flex items-center space-x-2 px-2">
+              <User className="h-4 w-4 text-muted-foreground" />
+              <span className="text-sm text-muted-foreground">{user.email}</span>
             </div>
             
-            <Button variant="ghost" onClick={handleLogout}>
+            <Button variant="ghost" size="sm" onClick={handleLogout}>
               <LogOut className="h-4 w-4 mr-2" />
               Abmelden
             </Button>
