@@ -88,6 +88,50 @@ serve(async (req: Request) => {
       )
     }
 
+    // Validate character limit (15k characters)
+    const MAX_TEXT_LENGTH = 15000;
+    if (textInput.length > MAX_TEXT_LENGTH) {
+      return new Response(
+        JSON.stringify({ error: `Text ist zu lang. Maximal ${MAX_TEXT_LENGTH.toLocaleString()} Zeichen erlaubt.` }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      )
+    }
+
+    // Check absolute deck limit (max 7 decks per user - lifetime limit)
+    const MAX_DECKS_PER_USER = 7;
+    const { data: userData, error: userError } = await supabaseClient
+      .from('users')
+      .select('created_decks_count')
+      .eq('id', user.id)
+      .single()
+
+    if (userError) {
+      console.error('User data error:', userError)
+      return new Response(
+        JSON.stringify({ error: 'Fehler beim Prüfen der Benutzer-Daten' }),
+        {
+          status: 500,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      )
+    }
+
+    if (userData.created_decks_count >= MAX_DECKS_PER_USER) {
+      return new Response(
+        JSON.stringify({ 
+          error: `Du hast das Limit von ${MAX_DECKS_PER_USER} Decks erreicht. Dies ist ein kostenloses Test-Konto mit begrenzter Nutzung.`,
+          isLimitReached: true 
+        }),
+        {
+          status: 400,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        }
+      )
+    }
+
     // Create prompt for OpenAI
     const prompt = `Analysiere den folgenden Text und erstelle daraus eine Liste von Frage-Antwort-Paaren für Anki-Karteikarten. Jedes Paar sollte ein klares, präzises Konzept abfragen. Die Vorderseite soll die Frage enthalten und die Rückseite die Antwort. Gib das Ergebnis ausschließlich als JSON-Array von Objekten zurück, wobei jedes Objekt die Schlüssel 'front' und 'back' hat.
 
