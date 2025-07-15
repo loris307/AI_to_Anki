@@ -1,28 +1,42 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import { useAuth } from "@/lib/auth-context";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { signIn, user } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user, router]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
     
     try {
-      // TODO: Implement Supabase authentication
-      console.log("Login attempt:", { email, password });
-      // Simulate loading
-      await new Promise(resolve => setTimeout(resolve, 1000));
-    } catch (error) {
-      console.error("Login error:", error);
+      const { error } = await signIn(email, password);
+      if (error) {
+        setError(error.message);
+      } else {
+        router.push("/");
+      }
+    } catch (err) {
+      setError("Ein unerwarteter Fehler ist aufgetreten");
     } finally {
       setLoading(false);
     }
@@ -39,6 +53,11 @@ export default function LoginPage() {
         </CardHeader>
         <form onSubmit={handleLogin}>
           <CardContent className="space-y-4">
+            {error && (
+              <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
+                {error}
+              </div>
+            )}
             <div className="space-y-2">
               <Label htmlFor="email">E-Mail</Label>
               <Input
