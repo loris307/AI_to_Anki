@@ -1,7 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  basePath: '/anki',
-  assetPrefix: '/anki',
   trailingSlash: true,
   output: 'standalone',
   webpack: (config) => {
