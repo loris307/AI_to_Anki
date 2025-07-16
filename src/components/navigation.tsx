@@ -30,13 +30,13 @@ export function Navigation() {
           </div>
           
           <div className="flex items-center space-x-3">
-            <Link href="/create-deck">
+            <Link href="/create-deck" className="hidden sm:block">
               <Button variant="ghost" size="sm">
                 Deck erstellen
               </Button>
             </Link>
             
-            <Link href="/my-decks">
+            <Link href="/my-decks" className="hidden sm:block">
               <Button variant="ghost" size="sm">
                 Meine Decks
               </Button>
