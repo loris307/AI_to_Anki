@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -19,21 +19,26 @@ interface Deck {
   file_path: string;
 }
 
-export default function MyDecksPage() {
-  const [decks, setDecks] = useState<Deck[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const { user } = useAuth();
+function SuccessMessage({ onSetMessage }: { onSetMessage: (message: string | null) => void }) {
   const searchParams = useSearchParams();
 
   useEffect(() => {
     // Check for success message from URL params
     if (searchParams.get('success') === 'deck-created') {
-      setSuccessMessage('Deck wurde erfolgreich erstellt!');
+      onSetMessage('Deck wurde erfolgreich erstellt!');
       // Clear the message after 5 seconds
-      setTimeout(() => setSuccessMessage(null), 5000);
+      setTimeout(() => onSetMessage(null), 5000);
     }
-  }, [searchParams]);
+  }, [searchParams, onSetMessage]);
+
+  return null;
+}
+
+export default function MyDecksPage() {
+  const [decks, setDecks] = useState<Deck[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     const fetchDecks = async () => {
@@ -141,6 +146,9 @@ export default function MyDecksPage() {
         </div>
 
         <main className="max-w-6xl mx-auto p-4">
+          <Suspense fallback={<div></div>}>
+            <SuccessMessage onSetMessage={setSuccessMessage} />
+          </Suspense>
           {successMessage && (
             <div className="mb-4 p-3 text-sm text-green-400 bg-green-950/50 border border-green-800 rounded-md">
               {successMessage}
