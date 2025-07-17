@@ -5,9 +5,20 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
 import { Navigation } from "@/components/navigation";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const { user, loading } = useAuth();
+  const searchParams = useSearchParams();
+  const [showDeletedMessage, setShowDeletedMessage] = useState(false);
+
+  useEffect(() => {
+    if (searchParams.get('deleted') === 'true') {
+      setShowDeletedMessage(true);
+      setTimeout(() => setShowDeletedMessage(false), 8000);
+    }
+  }, [searchParams]);
 
   if (loading) {
     return (
@@ -27,6 +38,12 @@ export default function Home() {
     return (
       <main className="min-h-screen bg-background flex items-center justify-center p-4">
         <div className="max-w-md w-full space-y-8">
+          {showDeletedMessage && (
+            <div className="p-3 text-sm text-green-400 bg-green-950/50 border border-green-800 rounded-md text-center">
+              Account wurde erfolgreich gelöscht.
+            </div>
+          )}
+          
           <div className="text-center">
             <h1 className="text-3xl font-bold text-foreground mb-2">
               AI to Anki
