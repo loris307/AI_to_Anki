@@ -6,10 +6,9 @@ import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
 import { Navigation } from "@/components/navigation";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 
-export default function Home() {
-  const { user, loading } = useAuth();
+function DeletedMessage() {
   const searchParams = useSearchParams();
   const [showDeletedMessage, setShowDeletedMessage] = useState(false);
 
@@ -19,6 +18,18 @@ export default function Home() {
       setTimeout(() => setShowDeletedMessage(false), 8000);
     }
   }, [searchParams]);
+
+  if (!showDeletedMessage) return null;
+
+  return (
+    <div className="p-3 text-sm text-green-400 bg-green-950/50 border border-green-800 rounded-md text-center">
+      Account wurde erfolgreich gelöscht.
+    </div>
+  );
+}
+
+export default function Home() {
+  const { user, loading } = useAuth();
 
   if (loading) {
     return (
@@ -38,11 +49,9 @@ export default function Home() {
     return (
       <main className="min-h-screen bg-background flex items-center justify-center p-4">
         <div className="max-w-md w-full space-y-8">
-          {showDeletedMessage && (
-            <div className="p-3 text-sm text-green-400 bg-green-950/50 border border-green-800 rounded-md text-center">
-              Account wurde erfolgreich gelöscht.
-            </div>
-          )}
+          <Suspense fallback={<div></div>}>
+            <DeletedMessage />
+          </Suspense>
           
           <div className="text-center">
             <h1 className="text-3xl font-bold text-foreground mb-2">
