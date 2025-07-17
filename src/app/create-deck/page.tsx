@@ -202,8 +202,18 @@ export default function CreateDeckPage() {
                   className="w-full" 
                   disabled={loading || loadingDeckCount || (createdDecksCount !== null && createdDecksCount >= MAX_DECKS_PER_USER)}
                 >
-                  {loading ? "Deck wird generiert... (dies kann 30-60 Sekunden dauern)" : 
-                   loadingDeckCount ? "Lade..." :
+                  {loading ? (
+                    <div className="flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Generiere Deck...
+                    </div>
+                  ) : 
+                   loadingDeckCount ? (
+                    <div className="flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Lade...
+                    </div>
+                   ) :
                    (createdDecksCount !== null && createdDecksCount >= MAX_DECKS_PER_USER) ? "Deck-Limit erreicht" :
                    "Deck generieren"}
                 </Button>
