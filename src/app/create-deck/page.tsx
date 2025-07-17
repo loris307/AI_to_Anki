@@ -7,10 +7,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import { ProtectedRoute } from "@/components/protected-route";
 import { useAuth } from "@/lib/auth-context";
 import { supabase } from "@/lib/supabase";
+import { Navigation } from "@/components/navigation";
 
 const MAX_TEXT_LENGTH = 15000;
 const MAX_DECKS_PER_USER = 7;
@@ -111,16 +111,15 @@ export default function CreateDeckPage() {
 
   return (
     <ProtectedRoute>
-      <main className="min-h-screen bg-background flex items-center justify-center p-4">
-        <div className="w-full max-w-2xl">
-          <div className="mb-6 text-center">
-            <h1 className="text-2xl font-bold text-foreground mb-2">
-              Neues Anki-Deck erstellen
-            </h1>
-            <Link href="/" className="text-primary hover:underline">
-              ← Zurück zur Startseite
-            </Link>
-          </div>
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <main className="flex items-center justify-center p-4">
+          <div className="w-full max-w-2xl">
+            <div className="mb-6 text-center">
+              <h1 className="text-2xl font-bold text-foreground mb-2">
+                Neues Anki-Deck erstellen
+              </h1>
+            </div>
           
           <Card className="border-border">
             <CardHeader>
@@ -220,8 +219,9 @@ export default function CreateDeckPage() {
               </CardFooter>
             </form>
           </Card>
-        </div>
-      </main>
+          </div>
+        </main>
+      </div>
     </ProtectedRoute>
   );
 }
