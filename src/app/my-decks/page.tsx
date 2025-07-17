@@ -10,6 +10,7 @@ import { ProtectedRoute } from "@/components/protected-route";
 import { useAuth } from "@/lib/auth-context";
 import { supabase } from "@/lib/supabase";
 import { useSearchParams } from "next/navigation";
+import { Navigation } from "@/components/navigation";
 
 interface Deck {
   id: string;
@@ -113,12 +114,15 @@ export default function MyDecksPage() {
   if (loading) {
     return (
       <ProtectedRoute>
-        <main className="min-h-screen bg-background flex items-center justify-center p-4">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Lade deine Decks...</p>
-          </div>
-        </main>
+        <div className="min-h-screen bg-background">
+          <Navigation />
+          <main className="flex items-center justify-center p-4">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+              <p className="text-muted-foreground">Lade deine Decks...</p>
+            </div>
+          </main>
+        </div>
       </ProtectedRoute>
     );
   }
@@ -126,24 +130,8 @@ export default function MyDecksPage() {
   return (
     <ProtectedRoute>
       <div className="min-h-screen bg-background">
-        <div className="border-b border-border bg-card">
-          <div className="max-w-6xl mx-auto px-4 py-4">
-            <div className="flex justify-between items-center">
-              <h1 className="text-lg font-semibold text-foreground">
-                Stapelübersicht
-              </h1>
-              <div className="flex space-x-2">
-                <Link href="/create-deck">
-                  <Button variant="outline" size="sm">
-                    Stapel erstellen
-                  </Button>
-                </Link>
-
-              </div>
-            </div>
-          </div>
-        </div>
-
+        <Navigation />
+        
         <main className="max-w-6xl mx-auto p-4">
           <Suspense fallback={<div></div>}>
             <SuccessMessage onSetMessage={setSuccessMessage} />
