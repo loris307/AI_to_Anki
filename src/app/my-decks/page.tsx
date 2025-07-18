@@ -11,6 +11,8 @@ import { useAuth } from "@/lib/auth-context";
 import { supabase } from "@/lib/supabase";
 import { useSearchParams } from "next/navigation";
 import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
+
 
 interface Deck {
   id: string;
@@ -129,10 +131,10 @@ export default function MyDecksPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <Navigation />
         
-        <main className="max-w-6xl mx-auto p-4">
+        <main className="flex-1 max-w-6xl mx-auto p-4">
           <Suspense fallback={<div></div>}>
             <SuccessMessage onSetMessage={setSuccessMessage} />
           </Suspense>
@@ -192,6 +194,7 @@ export default function MyDecksPage() {
             </p>
           </div>
         </main>
+        <Footer />
       </div>
     </ProtectedRoute>
   );

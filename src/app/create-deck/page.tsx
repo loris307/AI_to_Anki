@@ -11,6 +11,7 @@ import { ProtectedRoute } from "@/components/protected-route";
 import { useAuth } from "@/lib/auth-context";
 import { supabase } from "@/lib/supabase";
 import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
 
 const MAX_TEXT_LENGTH = 15000;
 const MAX_DECKS_PER_USER = 7;
@@ -111,9 +112,9 @@ export default function CreateDeckPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-background flex flex-col">
         <Navigation />
-        <main className="flex items-center justify-center p-4">
+        <main className="flex-1 flex items-center justify-center p-4">
           <div className="w-full max-w-2xl">
             <div className="mb-6 text-center">
               <h1 className="text-2xl font-bold text-foreground mb-2">
@@ -221,6 +222,7 @@ export default function CreateDeckPage() {
           </Card>
           </div>
         </main>
+        <Footer />
       </div>
     </ProtectedRoute>
   );
