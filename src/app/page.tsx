@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
 import { Navigation } from "@/components/navigation";
+import { Footer } from "@/components/footer";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
 
@@ -33,60 +34,66 @@ export default function Home() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Lade...</p>
-          <p className="text-xs text-muted-foreground mt-2">
-            Falls das zu lange dauert, sind möglicherweise die Environment Variables nicht gesetzt.
-          </p>
-        </div>
+      <div className="min-h-screen bg-background flex flex-col">
+        <main className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Lade...</p>
+            <p className="text-xs text-muted-foreground mt-2">
+              Falls das zu lange dauert, sind möglicherweise die Environment Variables nicht gesetzt.
+            </p>
+          </div>
+        </main>
+        <Footer />
       </div>
     );
   }
 
   if (!user) {
     return (
-      <main className="min-h-screen bg-background flex items-center justify-center p-4">
-        <div className="max-w-md w-full space-y-8">
-          <Suspense fallback={<div></div>}>
-            <DeletedMessage />
-          </Suspense>
-          
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-foreground mb-2">
-              AI to Anki
-            </h1>
-            <p className="text-muted-foreground mb-8">
-              Erstelle automatisch Anki-Decks aus beliebigen Texten
-            </p>
-          </div>
+      <div className="min-h-screen bg-background flex flex-col">
+        <main className="flex-1 flex items-center justify-center p-4">
+          <div className="max-w-md w-full space-y-8">
+            <Suspense fallback={<div></div>}>
+              <DeletedMessage />
+            </Suspense>
+            
+            <div className="text-center">
+              <h1 className="text-3xl font-bold text-foreground mb-2">
+                AI to Anki
+              </h1>
+              <p className="text-muted-foreground mb-8">
+                Erstelle automatisch Anki-Decks aus beliebigen Texten
+              </p>
+            </div>
 
-          <div className="space-y-4">
-            <Card className="border-border">
-              <CardContent className="p-6">
-                <Link href="/login">
-                  <Button className="w-full mb-4">
-                    Anmelden
-                  </Button>
-                </Link>
-                <Link href="/register">
-                  <Button variant="outline" className="w-full">
-                    Registrieren
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
+            <div className="space-y-4">
+              <Card className="border-border">
+                <CardContent className="p-6">
+                  <Link href="/login">
+                    <Button className="w-full mb-4">
+                      Anmelden
+                    </Button>
+                  </Link>
+                  <Link href="/register">
+                    <Button variant="outline" className="w-full">
+                      Registrieren
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
+        <Footer />
+      </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navigation />
-      <main className="flex items-center justify-center p-4">
+      <main className="flex-1 flex items-center justify-center p-4">
         <div className="max-w-md w-full space-y-6 mt-8">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-foreground mb-2">
@@ -115,6 +122,7 @@ export default function Home() {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
