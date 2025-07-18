@@ -54,7 +54,7 @@ export default function DatenschutzPage() {
                 <div>
                   <h3 className="font-medium mb-2">Hochgeladene Inhalte</h3>
                   <p className="text-sm leading-relaxed">
-                    Die von dir hochgeladenen Texte werden verarbeitet, um Karteikarten zu generieren. Die Verarbeitung erfolgt automatisiert durch die <strong>OpenAI API</strong>. Es findet keine dauerhafte Speicherung der Inhalte oder Ergebnisse statt.
+                    Die von dir hochgeladenen Texte werden verarbeitet, um Karteikarten zu generieren. Die Verarbeitung erfolgt automatisiert durch die <strong>OpenAI API</strong>. Es findet keine dauerhafte Speicherung der Inhalte statt.
                   </p>
                 </div>
                 
