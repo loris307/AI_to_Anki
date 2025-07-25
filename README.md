@@ -48,38 +48,6 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
 npm run dev
 ```
 
-## Supabase Setup
-
-### Datenbank-Schema
-
-Erstelle die folgende Tabelle in deiner Supabase-Datenbank:
-
-```sql
--- Create the decks table
-CREATE TABLE public.decks (
-    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-    user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-    deck_name TEXT NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
-    file_path TEXT NOT NULL
-);
-
--- Enable Row Level Security
-ALTER TABLE public.decks ENABLE ROW LEVEL SECURITY;
-
--- Create policies
-CREATE POLICY "Users can view their own decks" ON public.decks
-    FOR SELECT USING (auth.uid() = user_id);
-
-CREATE POLICY "Users can create their own decks" ON public.decks
-    FOR INSERT WITH CHECK (auth.uid() = user_id);
-```
-
-### Storage Setup
-
-1. Erstelle einen Storage Bucket namens `anki_decks`
-2. Konfiguriere ihn als privat
-3. Erstelle entsprechende Storage-Policies für den Zugriff
 
 ## Projekt-Struktur
 
@@ -136,9 +104,3 @@ npm run lint
 
 Siehe [SECURITY.md](SECURITY.md) für detaillierte Sicherheitsrichtlinien.
 
-## Nächste Schritte
-
-- [x] Supabase Edge Function für KI-Integration implementiert
-- [x] Authentifizierung vollständig integriert  
-- [ ] Error Handling und Loading States verbessern
-- [ ] Tests hinzufügen
