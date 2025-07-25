@@ -79,6 +79,13 @@ web_modules/
 .env.production.local
 .env.local
 
+# Additional security files
+*.pem
+*.key
+*.p12
+*.pfx
+.DS_Store
+
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 .parcel-cache

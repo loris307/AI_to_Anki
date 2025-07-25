@@ -41,6 +41,8 @@ NEXT_PUBLIC_SUPABASE_URL=your_supabase_url_here
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
 ```
 
+⚠️ **Wichtig**: `.env.local` wird von Git ignoriert und sollte niemals committed werden!
+
 4. Entwicklungsserver starten:
 ```bash
 npm run dev
@@ -124,10 +126,19 @@ npm run build
 npm run lint
 ```
 
+## Deployment
+
+### Vercel Deployment
+1. Verbinde dein GitHub Repository mit Vercel
+2. Konfiguriere folgende Umgebungsvariablen im Vercel Dashboard:
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
+Siehe [SECURITY.md](SECURITY.md) für detaillierte Sicherheitsrichtlinien.
+
 ## Nächste Schritte
 
-- [ ] Supabase Edge Function für KI-Integration implementieren
-- [ ] Authentifizierung vollständig integrieren
+- [x] Supabase Edge Function für KI-Integration implementiert
+- [x] Authentifizierung vollständig integriert  
 - [ ] Error Handling und Loading States verbessern
 - [ ] Tests hinzufügen
-- [ ] Deployment-Konfiguration
