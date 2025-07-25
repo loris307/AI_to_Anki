@@ -14,6 +14,7 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [acceptedPrivacy, setAcceptedPrivacy] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -38,6 +39,11 @@ export default function RegisterPage() {
     
     if (password.length < 6) {
       setError("Passwort muss mindestens 6 Zeichen lang sein");
+      return;
+    }
+
+    if (!acceptedPrivacy) {
+      setError("Du musst der Datenschutzerklärung zustimmen");
       return;
     }
     
@@ -115,9 +121,30 @@ export default function RegisterPage() {
                   className="bg-input border-border text-foreground"
                 />
               </div>
+              <div className="flex items-start space-x-2">
+                <input
+                  id="acceptPrivacy"
+                  type="checkbox"
+                  checked={acceptedPrivacy}
+                  onChange={(e) => setAcceptedPrivacy(e.target.checked)}
+                  className="mt-1 h-4 w-4 text-primary border-border bg-input rounded focus:ring-primary focus:ring-2"
+                />
+                <Label htmlFor="acceptPrivacy" className="text-sm text-foreground leading-relaxed">
+                  Ich habe die{" "}
+                  <Link 
+                    href="/datenschutz" 
+                    className="text-primary hover:underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Datenschutzerklärung
+                  </Link>{" "}
+                  gelesen und stimme der Verarbeitung meiner Daten gemäß dieser zu.
+                </Label>
+              </div>
             </CardContent>
             <CardFooter className="flex flex-col space-y-4">
-              <Button type="submit" className="w-full" disabled={loading || success}>
+              <Button type="submit" className="w-full" disabled={loading || success || !acceptedPrivacy}>
                 {loading ? "Registrieren..." : "Registrieren"}
               </Button>
               <div className="text-center">
